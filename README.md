@@ -64,31 +64,38 @@ In the Lambda console, create a new Python 3.7 function from scratch. For the ex
 
 Create the following environment variables for the Lambda function:
 Key	Value
-MailS3Bucket	The name of the S3 bucket that you created earlier.
-MailS3Prefix	The path of the folder in the S3 bucket where you will store incoming email.
-MailSender	The email address that the forwarded message will be sent from. This address has to be verified.
-MailRecipient	The address that you want to forward the message to.
-Region	The name of the AWS Region that you want to use to send the email.
+
+`MailS3Bucket`	The name of the S3 bucket that you created earlier.
+
+`MailS3Prefix`	The path of the folder in the S3 bucket where you will store incoming email.
+
+`MailSender`	The email address that the forwarded message will be sent from. This address has to be verified.
+
+`MailRecipient`	The address that you want to forward the message to.
+
+`Region`	The name of the AWS Region that you want to use to send the email.
+
 Under Basic settings, set the Timeout value to 30 seconds.
 
-(Optional) Step 5: Create an Amazon SNS Topic
+(Optional) 
+## Step 5: Create an Amazon SNS Topic
 You can optionally create an Amazon SNS topic. This step is helpful for troubleshooting purposes, or if you just want to receive additional notifications when you receive a message.
 
 Create a new Amazon SNS topic. For more information, see Creating a Topic in the Amazon SNS Developer Guide.
 Subscribe an endpoint, such as an email address, to the topic. For more information, see Subscribing an Endpoint to a Topic in the Amazon SNS Developer Guide.
-Step 6: Create a Receipt Rule Set
+## Step 6: Create a Receipt Rule Set
 In the Amazon SES console, create a new Receipt Rule Set. For more information, see Creating a Receipt Rule Set in the Amazon SES Developer Guide.
 In the Receipt Rule Set that you just created, add a Receipt Rule. In the Receipt Rule, add an S3 Action. Set up the S3 Action to send your email to the S3 bucket that you created earlier.
 Add a Lambda action to the Receipt Rule. Configure the Receipt Rule to invoke the Lambda function that you created earlier.
 For more information, see Setting Up a Receipt Rule in the Amazon SES Developer Guide.
 
-Step 7: Test the Function
-Send an email to an address that corresponds with an address in the Receipt Rule you created earlier. Make sure that the email arrives in the correct S3 bucket. In a minute or two, the email arrives in the inbox that you specified in the MailRecipient variable of the Lambda function.
+## Step 7: Test the Function
+Send an email to an address that corresponds with an address in the Receipt Rule you created earlier. Make sure that the email arrives in the correct S3 bucket. In a minute or two, the email arrives in the inbox that you specified in the `MailRecipient` variable of the Lambda function.
 Troubleshooting
 If you send a test message, but it is never forwarded to your destination email address, do the following:
 
 Make sure that the Amazon SES Receipt Rule is active.
-Make sure that the email address that you specified in the MailRecipient variable of the Lambda function is correct.
+Make sure that the email address that you specified in the `MailRecipient` variable of the Lambda function is correct.
 Subscribe an email address or phone number to the SNS topic. Send another test email to your domain. Make sure that SNS sends a Received notification to your subscribed email address or phone number.
 Check the CloudWatch Log for your Lambda function to see if any errors occurred.
 If you send a test email to your receiving domain, but you receive a bounce notification, do the following:
